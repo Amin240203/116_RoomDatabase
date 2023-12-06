@@ -2,14 +2,16 @@ package com.example.pertemuan10.model
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.pertemuan10.data.Siswa
 import com.example.pertemuan10.repositori.RepositoriSiswa
 
 class EntryViewModel (private val repositoriSiswa: RepositoriSiswa): ViewModel(){
     /**
      * Berisi status Siswa saat ini
      */
-    var uiStateSiswa by mutableStateOf(UIstateSiswa())
+    var uiStateSiswa by mutableStateOf(UIStateSiswa())
         private set
     /**
    Fungsi untuk memvalidasi input
@@ -47,3 +49,24 @@ data class DetailSiswa(
     val alamat: String = "",
     val telpon: String = "",
 )
+/*
+Fungsi untuk mengkonversi data input ke data dalam tabel sesuai jenis datanya
+ */
+fun DetailSiswa.toSiswa(): Siswa = Siswa(
+    id = id,
+    nama = nama,
+    alamat = alamat,
+    telpon = telpon
+)
+
+fun Siswa.toUiStateSiswa(isEntryValid: Boolean = false): UIStateSiswa = UIStateSiswa(
+    detailSiswa = this.toDetailSiswa(),
+    isEntryValid = isEntryValid
+)
+fun Siswa.toDetailSiswa(): DetailSiswa = DetailSiswa(
+    id = id,
+    nama = nama,
+    alamat = alamat,
+    telpon = telpon
+)
+
